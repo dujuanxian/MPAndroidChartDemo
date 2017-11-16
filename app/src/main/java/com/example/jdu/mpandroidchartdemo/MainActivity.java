@@ -19,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_radar_chart:
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_highlighter:
                     Intent circleAnimatorIntent = new Intent(MainActivity.this, CircleAnimator.class);
                     startActivity(circleAnimatorIntent);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_line_chart:
                     Intent chartIntent = new Intent(MainActivity.this, ChartActivity.class);
                     startActivity(chartIntent);
                     return true;
