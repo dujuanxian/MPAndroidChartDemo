@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -22,7 +23,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class LineChartActivity extends AppCompatActivity {
+public class LineChartActivity extends AppCompatActivity{
     private LineChart chart;
     private Highlight[] highlightEntryList;
     final static Logger logger = Logger.getLogger("LineChartActivity");
@@ -31,6 +32,10 @@ public class LineChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_chart);
+
+        TextView marqueeText = this.findViewById(R.id.marquee_text);
+        marqueeText.setText(new String("特朗普来访问中国啦，不可思议，受不鸟了，长得太可爱了！"));
+        marqueeText.setSelected(true);
 
         chart = findViewById(R.id.line_chart);
         chart.getDescription().setEnabled(false);
