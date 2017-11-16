@@ -18,13 +18,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ChartActivity extends AppCompatActivity {
     private LineChart chart;
+    private Highlight[] highlightEntryList;
     final static Logger logger = Logger.getLogger("ChartActivity");
 
     @Override
@@ -46,11 +46,23 @@ public class ChartActivity extends AppCompatActivity {
         disableAxis();
         addData();
         setChartValueSelectedListener();
+        setDrawMarkers();
+
         chart.animateX(500);
+
+        chart.highlightValues(highlightEntryList);
+    }
+
+    private void setDrawMarkers() {
+        chart.setDrawMarkers(true);
+        LineChartMarkerView customMarkerView = new LineChartMarkerView(this, R.layout.line_chart_highlighter);
+        chart.setMarker(customMarkerView);
     }
 
     private void addData() {
         ArrayList<Entry> entryList = createEntryList();
+        setHighlightEntryList(entryList);
+
         LineDataSet lineDataSet = createLineDataSet(entryList);
 
         LineData data = new LineData(lineDataSet);
@@ -63,12 +75,17 @@ public class ChartActivity extends AppCompatActivity {
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                setHighlightAnimation(h);
+                for (Highlight aHighlightEntryList : highlightEntryList) {
+                    if (aHighlightEntryList.getX() == e.getX()) {
+                        setHighlightAnimation(h);
+                    }
+                }
+                chart.highlightValues(highlightEntryList);
             }
 
             @Override
             public void onNothingSelected() {
-
+                chart.highlightValues(highlightEntryList);
             }
         });
     }
@@ -76,14 +93,8 @@ public class ChartActivity extends AppCompatActivity {
     private LineDataSet createLineDataSet(ArrayList<Entry> entryList) {
         LineDataSet set = new LineDataSet(entryList, null);
 
-        set.setColor(ColorTemplate.getHoloBlue());
-        set.setCircleColor(Color.WHITE);
         set.setLineWidth(2f);
-        set.setCircleRadius(5f);
-        set.setFillColor(ColorTemplate.getHoloBlue());
-        set.setDrawCircleHole(true);
-        set.setCircleColorHole(Color.rgb(43, 196, 90));
-        set.setCircleHoleRadius(4f);
+        set.setDrawCircles(false);
         set.setHighlightEnabled(true);
         set.setDrawHighlightIndicators(false);
         setGradientFill(set);
@@ -139,7 +150,7 @@ public class ChartActivity extends AppCompatActivity {
     private ArrayList<Entry> createEntryList() {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             float mult = 5 / 2f;
             float val = (float) (Math.random() * mult) + 5;
             yVals1.add(new Entry(i, val));
@@ -148,4 +159,13 @@ public class ChartActivity extends AppCompatActivity {
         return yVals1;
     }
 
+    public void setHighlightEntryList(ArrayList<Entry> entryList) {
+        Highlight h1 = new Highlight(entryList.get(10).getX(), entryList.get(0).getY(), 0);
+        Highlight h2 = new Highlight(entryList.get(20).getX(), entryList.get(1).getY(), 0);
+        Highlight h3 = new Highlight(entryList.get(25).getX(), entryList.get(1).getY(), 0);
+        Highlight h4 = new Highlight(entryList.get(35).getX(), entryList.get(1).getY(), 0);
+        Highlight h5 = new Highlight(entryList.get(40).getX(), entryList.get(1).getY(), 0);
+        Highlight h6 = new Highlight(entryList.get(42).getX(), entryList.get(1).getY(), 0);
+        highlightEntryList = new Highlight[]{h1, h2, h3, h4, h5, h6};
+    }
 }
