@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(circleAnimatorIntent);
                     return true;
                 case R.id.navigation_line_chart:
-                    Intent chartIntent = new Intent(MainActivity.this, ChartActivity.class);
+                    Intent chartIntent = new Intent(MainActivity.this, LineChartActivity.class);
                     startActivity(chartIntent);
                     return true;
             }

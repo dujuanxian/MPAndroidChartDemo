@@ -22,10 +22,10 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class ChartActivity extends AppCompatActivity {
+public class LineChartActivity extends AppCompatActivity {
     private LineChart chart;
     private Highlight[] highlightEntryList;
-    final static Logger logger = Logger.getLogger("ChartActivity");
+    final static Logger logger = Logger.getLogger("LineChartActivity");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

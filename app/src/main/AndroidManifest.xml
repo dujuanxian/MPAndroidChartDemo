@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CircleAnimator" />
-        <activity android:name=".ChartActivity"></activity>
+        <activity android:name=".LineChartActivity"></activity>
     </application>
 
 </manifest>
