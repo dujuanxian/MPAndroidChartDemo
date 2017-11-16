@@ -30,7 +30,7 @@ public class LineChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chart);
+        setContentView(R.layout.activity_line_chart);
 
         chart = findViewById(R.id.line_chart);
         chart.getDescription().setEnabled(false);
