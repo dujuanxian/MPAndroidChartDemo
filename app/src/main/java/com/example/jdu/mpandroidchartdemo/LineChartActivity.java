@@ -5,11 +5,14 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -19,23 +22,29 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.gongwen.marqueen.SimpleMF;
+import com.gongwen.marqueen.SimpleMarqueeView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class LineChartActivity extends AppCompatActivity{
     private LineChart chart;
     private Highlight[] highlightEntryList;
     final static Logger logger = Logger.getLogger("LineChartActivity");
+    private ViewGroup marqueeViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_chart);
 
-        TextView marqueeText = this.findViewById(R.id.marquee_text);
-        marqueeText.setText(new String("特朗普来访问中国啦，不可思议，受不鸟了，长得太可爱了！"));
-        marqueeText.setSelected(true);
+        final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+        SimpleMarqueeView marqueeView = getSimpleMarqueeView(datas);
+        marqueeViewContainer = findViewById(R.id.marqueeview_container);
+        marqueeViewContainer.addView(marqueeView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         chart = findViewById(R.id.line_chart);
         chart.getDescription().setEnabled(false);
@@ -56,6 +65,21 @@ public class LineChartActivity extends AppCompatActivity{
         chart.animateX(500);
 
         chart.highlightValues(highlightEntryList);
+    }
+
+    @NonNull
+    private SimpleMarqueeView getSimpleMarqueeView(List<String> datas) {
+        SimpleMarqueeView marqueeView = new SimpleMarqueeView(this);
+        SimpleMF<String> marqueeFactory = new SimpleMF(this);
+        marqueeFactory.setData(datas);
+        marqueeView.setMarqueeFactory(marqueeFactory);
+        marqueeView.setAnimDuration(2000);
+        marqueeView.setFlipInterval(2500);
+        marqueeView.setTextGravity(Gravity.CENTER_VERTICAL);
+        marqueeView.setTextSize(18);
+        marqueeView.setInAndOutAnim(R.anim.in_left, R.anim.out_right);
+        marqueeView.startFlipping();
+        return marqueeView;
     }
 
     private void setDrawMarkers() {
@@ -83,6 +107,10 @@ public class LineChartActivity extends AppCompatActivity{
                 for (Highlight aHighlightEntryList : highlightEntryList) {
                     if (aHighlightEntryList.getX() == e.getX()) {
                         setHighlightAnimation(h);
+
+                        marqueeViewContainer.removeAllViews();
+                        final List<String> datas = Arrays.asList("离离原上草，一岁一枯荣。", "《赋得古原草送别》",  "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+                        marqueeViewContainer.addView(getSimpleMarqueeView(datas), new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     }
                 }
                 chart.highlightValues(highlightEntryList);

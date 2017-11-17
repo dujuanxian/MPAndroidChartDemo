@@ -24,8 +24,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LineChart mChart;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -33,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_radar_chart:
+                    return true;
+                case R.id.navigation_marquee:
+                    Intent marqueeActivityIntent = new Intent(MainActivity.this, MarqueeActivity.class);
+                    startActivity(marqueeActivityIntent);
                     return true;
                 case R.id.navigation_highlighter:
                     Intent circleAnimatorIntent = new Intent(MainActivity.this, CircleAnimator.class);

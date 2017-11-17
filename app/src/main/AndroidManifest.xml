@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".CircleAnimator" />
         <activity android:name=".LineChartActivity"></activity>
+        <activity android:name=".MarqueeActivity"></activity>
     </application>
 
 </manifest>
